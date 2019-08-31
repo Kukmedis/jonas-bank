@@ -34,7 +34,7 @@ public class AccountsResource {
 
     @GET
     @Path("{accountId}")
-    public AccountApiModel getAccount(String accountId) {
+    public AccountApiModel getAccount(@PathParam("accountId") String accountId) {
         return Optional.ofNullable(accountRepository.get(accountId)).map(toApiModel())
                 .orElseThrow(NotFoundException::new);
     }

@@ -32,7 +32,7 @@ public class TransferProcessorTest {
 
     @Before
     public void setUp() throws Exception {
-        accountRepository = new HashMap<>() {{
+        accountRepository = new HashMap<String, Account>() {{
             put(createAccount(100.0, "ID_1").getId(), createAccount(100.0, "ID_1"));
             put(createAccount(50.0, "ID_2").getId(), createAccount(50.0, "ID_2"));
         }};

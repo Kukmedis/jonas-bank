@@ -40,7 +40,7 @@ public class TransfersResource {
 
     @GET
     @Path("{transferId}")
-    public TransferResponseApiModel getTransfer(String transferId) {
+    public TransferResponseApiModel getTransfer(@PathParam("transferId") String transferId) {
         return Optional.ofNullable(transferRepository.get(transferId)).map(toApiModel())
                 .orElseThrow(NotFoundException::new);
     }
