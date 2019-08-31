@@ -19,7 +19,7 @@ public class TransfersResource {
     }
 
     @GET
-    @Path("transferId")
+    @Path("{transferId}")
     public TransferResponseApiModel getTransfer(String transferId) {
         throw new UnsupportedOperationException();
     }
