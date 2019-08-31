@@ -5,6 +5,8 @@ import java.time.Instant;
 
 public class TransferResponseApiModel {
 
+    public final String id;
+
     public final MonetaryAmount amount;
 
     public final String debitAccountId;
@@ -14,7 +16,8 @@ public class TransferResponseApiModel {
     public final Instant transferDate;
 
     public TransferResponseApiModel(
-            MonetaryAmount amount, String debitAccountId, String creditAccountId, Instant transferDate) {
+            String id, MonetaryAmount amount, String debitAccountId, String creditAccountId, Instant transferDate) {
+        this.id = id;
         this.amount = amount;
         this.debitAccountId = debitAccountId;
         this.creditAccountId = creditAccountId;

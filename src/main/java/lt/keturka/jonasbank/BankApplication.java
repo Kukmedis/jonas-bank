@@ -15,6 +15,10 @@ import javax.ws.rs.ext.ExceptionMapper;
 
 public class BankApplication extends Application<BankConfiguration> {
 
+    public static void main(String[] args) throws Exception {
+        new BankApplication().run(args);
+    }
+
     @Override
     public void run(BankConfiguration bankConfiguration, Environment environment) throws Exception {
         environment.jersey().register(
