@@ -2,7 +2,7 @@ package lt.keturka.jonasbank.core;
 
 import lt.keturka.jonasbank.core.domain.Account;
 import lt.keturka.jonasbank.core.domain.MoneyTransfer;
-import lt.keturka.jonasbank.exceptions.AccountNotFoundException;
+import lt.keturka.jonasbank.exceptions.TransferAccountNotFoundException;
 import lt.keturka.jonasbank.exceptions.InsufficientFundsException;
 import lt.keturka.jonasbank.exceptions.UnsupportedCurrencyException;
 
@@ -48,7 +48,7 @@ public class TransferProcessor {
 
     private Account getCreditAccount(String creditAccountId) {
         return Optional.ofNullable(accountRepository.get(creditAccountId)).orElseThrow(
-                () -> new AccountNotFoundException(creditAccountId));
+                () -> new TransferAccountNotFoundException(creditAccountId));
     }
 
     private String saveTransfer(MonetaryAmount amount, String debitAccountId, String creditAccountId) {

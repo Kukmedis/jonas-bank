@@ -2,7 +2,7 @@ package lt.keturka.jonasbank.core;
 
 import lt.keturka.jonasbank.core.domain.Account;
 import lt.keturka.jonasbank.core.domain.MoneyTransfer;
-import lt.keturka.jonasbank.exceptions.AccountNotFoundException;
+import lt.keturka.jonasbank.exceptions.TransferAccountNotFoundException;
 import lt.keturka.jonasbank.exceptions.UnsupportedCurrencyException;
 import org.hamcrest.*;
 import org.javamoney.moneta.Money;
@@ -44,10 +44,10 @@ public class TransferProcessorTest {
 
     @Test
     public void shouldInformWhenDebitAccountNotFound() {
-        thrown.expect(AccountNotFoundException.class);
-        thrown.expect(new CustomTypeSafeMatcher<AccountNotFoundException>("Id does not match") {
+        thrown.expect(TransferAccountNotFoundException.class);
+        thrown.expect(new CustomTypeSafeMatcher<TransferAccountNotFoundException>("Id does not match") {
             @Override
-            protected boolean matchesSafely(AccountNotFoundException item) {
+            protected boolean matchesSafely(TransferAccountNotFoundException item) {
                 return item.accountId.equals("MISSING");
             }
         });
@@ -56,10 +56,10 @@ public class TransferProcessorTest {
 
     @Test
     public void shouldInformWhenCreditAccountNotFound() {
-        thrown.expect(AccountNotFoundException.class);
-        thrown.expect(new CustomTypeSafeMatcher<AccountNotFoundException>("Id does not match") {
+        thrown.expect(TransferAccountNotFoundException.class);
+        thrown.expect(new CustomTypeSafeMatcher<TransferAccountNotFoundException>("Id does not match") {
             @Override
-            protected boolean matchesSafely(AccountNotFoundException item) {
+            protected boolean matchesSafely(TransferAccountNotFoundException item) {
                 return item.accountId.equals("MISSING");
             }
         });
