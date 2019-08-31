@@ -14,6 +14,7 @@ import lt.keturka.jonasbank.exceptions.UnsupportedCurrencyException;
 import lt.keturka.jonasbank.healthchecks.BankHealthCheck;
 import lt.keturka.jonasbank.resources.AccountsResource;
 import lt.keturka.jonasbank.resources.TransfersResource;
+import org.javamoney.moneta.Money;
 import org.zalando.jackson.datatype.money.MoneyModule;
 
 import javax.ws.rs.core.Response;
@@ -35,6 +36,11 @@ public class BankApplication extends Application<BankConfiguration> {
         environment.jersey().register(new TransferAccountNotFoundExceptionMapper());
         Map<String, MoneyTransfer> transferRepository = new LinkedHashMap<>();
         Map<String, Account> accountRepository = new LinkedHashMap<>();
+        Account houseAccount = new Account();
+        houseAccount.setHolderName("Jonas Bank");
+        houseAccount.setBalance(Money.of(10000000.0, "EUR"));
+        houseAccount.setId("house");
+        accountRepository.put(houseAccount.getId(), houseAccount);
         environment.jersey().register(new TransfersResource(
                 new TransferProcessor(transferRepository, accountRepository), transferRepository));
         environment.jersey().register(new AccountsResource(accountRepository));
