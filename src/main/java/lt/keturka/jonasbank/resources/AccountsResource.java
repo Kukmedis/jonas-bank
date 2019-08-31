@@ -1,11 +1,9 @@
 package lt.keturka.jonasbank.resources;
 
 import lt.keturka.jonasbank.api.AccountApiModel;
+import lt.keturka.jonasbank.api.IdContainer;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -21,6 +19,11 @@ public class AccountsResource {
     @GET
     @Path("{accountId}")
     public AccountApiModel getAccount(String accountId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @POST
+    public IdContainer openAccount() {
         throw new UnsupportedOperationException();
     }
 

@@ -1,7 +1,7 @@
 package lt.keturka.jonasbank.resources;
 
 import lt.keturka.jonasbank.api.IdContainer;
-import lt.keturka.jonasbank.api.TransferApiModel;
+import lt.keturka.jonasbank.api.TransferRequestApiModel;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 public class TransfersResource {
 
     @POST
-    public IdContainer transferMoney(TransferApiModel transferApiModel) {
+    public IdContainer transferMoney(TransferRequestApiModel transferRequestApiModel) {
         throw new UnsupportedOperationException();
     }
 

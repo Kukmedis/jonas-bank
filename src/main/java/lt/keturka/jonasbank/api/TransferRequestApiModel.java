@@ -1,11 +1,12 @@
 package lt.keturka.jonasbank.api;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.money.MonetaryAmount;
 import javax.validation.constraints.NotNull;
 
-public class TransferApiModel {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class TransferRequestApiModel {
 
     public final MonetaryAmount amount;
 
@@ -13,7 +14,7 @@ public class TransferApiModel {
 
     public final String creditAccountId;
 
-    public TransferApiModel(
+    public TransferRequestApiModel(
             @NotNull MonetaryAmount amount,
             @NotNull String debitAccountId,
             @NotNull String creditAccountId) {
