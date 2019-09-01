@@ -1,5 +1,7 @@
 package lt.keturka.jonasbank;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -54,7 +56,8 @@ public class BankApplication extends Application<BankConfiguration> {
     @Override
     public void initialize(Bootstrap<BankConfiguration> bootstrap) {
         super.initialize(bootstrap);
-        bootstrap.getObjectMapper().registerModule(new MoneyModule());
+        bootstrap.getObjectMapper().registerModules(new MoneyModule(), new JavaTimeModule());
+        bootstrap.getObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         bootstrap.getHealthCheckRegistry().register("bank", new BankHealthCheck());
     }
 
