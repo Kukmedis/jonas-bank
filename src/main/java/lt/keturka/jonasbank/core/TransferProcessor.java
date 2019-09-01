@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+/*
+Transfer processor is responsible for validating transfers, and transferring funds between accounts.
+ */
 public class TransferProcessor {
 
     private final Map<String, MoneyTransfer> transferRepository;
@@ -25,6 +28,9 @@ public class TransferProcessor {
         this(transferRepository, accountRepository, Clock.systemUTC());
     }
 
+    /*
+    To be used in tests. Clock can be provided (eg. FixedClock) in order to properly test time sensitive functionality
+     */
     public TransferProcessor(
             Map<String, MoneyTransfer> transferRepository, Map<String, Account> accountRepository, Clock clock) {
         this.transferRepository = transferRepository;

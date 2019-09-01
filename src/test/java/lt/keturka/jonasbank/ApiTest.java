@@ -1,4 +1,4 @@
-package lt.keturka.jonasbank.core;
+package lt.keturka.jonasbank;
 
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import io.restassured.http.ContentType;

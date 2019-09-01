@@ -24,7 +24,7 @@ There are two tests included.
 The service expose endpoints on port 8080. 
 
 ## Endpoints
-All requests are validated
+All requests are properly validated and will result in either 400 or 422, if the service rejects the request data.
 
 ### POST /accounts
 Opens a new account with balance 0.00
@@ -73,6 +73,8 @@ Response:
 ```
 
 ### GET /accounts/{id}
+`404` if not found
+
 Response:
 
 `HTTP 200`
@@ -139,6 +141,7 @@ Response:
 ]
 ```
 ### GET /transfers/{id}
+`404` if not found
 
 Response:
 
