@@ -7,9 +7,14 @@ import javax.validation.constraints.NotNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OpenAccountRequestApiModel {
 
-    public final String holderName;
+    @NotNull
+    private String holderName;
 
-    public OpenAccountRequestApiModel(@NotNull String holderName) {
+    public String getHolderName() {
+        return holderName;
+    }
+
+    public void setHolderName(String holderName) {
         this.holderName = holderName;
     }
 }

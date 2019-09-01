@@ -6,8 +6,11 @@ import lt.keturka.jonasbank.api.TransferResponseApiModel;
 import lt.keturka.jonasbank.core.TransferProcessor;
 import lt.keturka.jonasbank.core.domain.MoneyTransfer;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,13 +32,14 @@ public class TransfersResource {
     }
 
     @POST
-    public IdContainer transferMoney(TransferRequestApiModel transferRequestApiModel) {
-        return new IdContainer(
-                transferProcessor.transferMoney(
-                        transferRequestApiModel.amount,
-                        transferRequestApiModel.debitAccountId,
-                        transferRequestApiModel.creditAccountId)
-        );
+    public Response transferMoney(@NotNull @Valid TransferRequestApiModel transferRequestApiModel) {
+        return Response.status(201).entity(
+                new IdContainer(
+                        transferProcessor.transferMoney(
+                                transferRequestApiModel.getAmount(),
+                                transferRequestApiModel.getDebitAccountId(),
+                                transferRequestApiModel.getCreditAccountId())
+                )).build();
     }
 
     @GET

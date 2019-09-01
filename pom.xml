@@ -13,6 +13,7 @@
         <junit.version>4.12</junit.version>
         <moneta.version>1.3</moneta.version>
         <jackson-datatype-money.version>1.1.1</jackson-datatype-money.version>
+        <rest-assured.version>4.0.0</rest-assured.version>
     </properties>
     <build>
         <plugins>
@@ -71,6 +72,17 @@
             <groupId>org.zalando</groupId>
             <artifactId>jackson-datatype-money</artifactId>
             <version>${jackson-datatype-money.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-testing</artifactId>
+            <version>${dropwizard.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

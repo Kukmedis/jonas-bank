@@ -6,8 +6,11 @@ import lt.keturka.jonasbank.api.OpenAccountRequestApiModel;
 import lt.keturka.jonasbank.core.domain.Account;
 import org.javamoney.moneta.Money;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,14 +43,14 @@ public class AccountsResource {
     }
 
     @POST
-    public IdContainer openAccount(OpenAccountRequestApiModel requestApiModel) {
+    public Response openAccount(@NotNull @Valid OpenAccountRequestApiModel requestApiModel) {
         String id = UUID.randomUUID().toString();
         Account account = new Account();
         account.setId(id);
         account.setBalance(Money.of(0.0, "EUR"));
-        account.setHolderName(requestApiModel.holderName);
+        account.setHolderName(requestApiModel.getHolderName());
         accountRepository.put(id, account);
-        return new IdContainer(id);
+        return Response.status(201).entity(new IdContainer(id)).build();
     }
 
     private Function<Account, AccountApiModel> toApiModel() {

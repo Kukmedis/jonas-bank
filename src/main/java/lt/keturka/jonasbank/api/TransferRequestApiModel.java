@@ -8,18 +8,36 @@ import javax.validation.constraints.NotNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransferRequestApiModel {
 
-    public final MonetaryAmount amount;
+    @NotNull
+    private MonetaryAmount amount;
 
-    public final String debitAccountId;
+    @NotNull
+    private String debitAccountId;
 
-    public final String creditAccountId;
+    @NotNull
+    private String creditAccountId;
 
-    public TransferRequestApiModel(
-            @NotNull MonetaryAmount amount,
-            @NotNull String debitAccountId,
-            @NotNull String creditAccountId) {
+    public MonetaryAmount getAmount() {
+        return amount;
+    }
+
+    public void setAmount(MonetaryAmount amount) {
         this.amount = amount;
+    }
+
+    public String getDebitAccountId() {
+        return debitAccountId;
+    }
+
+    public void setDebitAccountId(String debitAccountId) {
         this.debitAccountId = debitAccountId;
+    }
+
+    public String getCreditAccountId() {
+        return creditAccountId;
+    }
+
+    public void setCreditAccountId(String creditAccountId) {
         this.creditAccountId = creditAccountId;
     }
 }
