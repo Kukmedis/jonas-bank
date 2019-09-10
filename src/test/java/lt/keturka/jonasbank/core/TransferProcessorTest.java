@@ -16,6 +16,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
@@ -26,20 +28,20 @@ public class TransferProcessorTest {
 
     private TransferProcessor transferProcessor;
 
-    private HashMap<String, Account> accountRepository;
+    private Map<String, Account> accountRepository;
 
-    private HashMap<String, MoneyTransfer> transferRepository;
+    private Map<String, MoneyTransfer> transferRepository;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
-        accountRepository = new HashMap<String, Account>() {{
+        accountRepository = new LinkedHashMap<String, Account>() {{
             put(createAccount(100.0, "ID_1").getId(), createAccount(100.0, "ID_1"));
             put(createAccount(50.0, "ID_2").getId(), createAccount(50.0, "ID_2"));
         }};
-        transferRepository = new HashMap<>();
+        transferRepository = new LinkedHashMap<>();
         transferProcessor = new TransferProcessor(
                 transferRepository, accountRepository,
                 Clock.fixed(Instant.ofEpochSecond(1000), ZoneId.systemDefault()));
