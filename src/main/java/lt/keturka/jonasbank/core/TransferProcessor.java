@@ -2,12 +2,11 @@ package lt.keturka.jonasbank.core;
 
 import lt.keturka.jonasbank.core.domain.Account;
 import lt.keturka.jonasbank.core.domain.MoneyTransfer;
-import lt.keturka.jonasbank.exceptions.SameTransferAccountException;
-import lt.keturka.jonasbank.exceptions.TransferAccountNotFoundException;
-import lt.keturka.jonasbank.exceptions.InsufficientFundsException;
-import lt.keturka.jonasbank.exceptions.UnsupportedCurrencyException;
+import lt.keturka.jonasbank.exceptions.*;
+import org.javamoney.moneta.spi.DefaultNumberValue;
 
 import javax.money.MonetaryAmount;
+import javax.money.NumberValue;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Map;
@@ -47,6 +46,9 @@ public class TransferProcessor {
         }
         if (!"EUR".equals(amount.getCurrency().getCurrencyCode())) {
             throw new UnsupportedCurrencyException();
+        }
+        if (amount.getNumber().compareTo(new DefaultNumberValue(0.0)) < 1) {
+            throw new IllegalAmountException(amount);
         }
         if (amount.compareTo(debitAccount.getBalance()) > 0) {
             throw new InsufficientFundsException();

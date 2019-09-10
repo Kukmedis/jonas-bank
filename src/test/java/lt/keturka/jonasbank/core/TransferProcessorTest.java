@@ -2,6 +2,7 @@ package lt.keturka.jonasbank.core;
 
 import lt.keturka.jonasbank.core.domain.Account;
 import lt.keturka.jonasbank.core.domain.MoneyTransfer;
+import lt.keturka.jonasbank.exceptions.IllegalAmountException;
 import lt.keturka.jonasbank.exceptions.SameTransferAccountException;
 import lt.keturka.jonasbank.exceptions.TransferAccountNotFoundException;
 import lt.keturka.jonasbank.exceptions.UnsupportedCurrencyException;
@@ -74,6 +75,16 @@ public class TransferProcessorTest {
     @Test(expected = UnsupportedCurrencyException.class)
     public void shouldNotAllowNonEuroTransfers() {
         transferProcessor.transferMoney(Money.of(10.0, "GBP"), "ID_1", "ID_2");
+    }
+
+    @Test(expected = IllegalAmountException.class)
+    public void shouldNotAllowTransferOfZero() {
+        transferProcessor.transferMoney(Money.of(0.0, "EUR"), "ID_1", "ID_2");
+    }
+
+    @Test(expected = IllegalAmountException.class)
+    public void shouldNotAllowNegativeFundsTransfer() {
+        transferProcessor.transferMoney(Money.of(-10.0, "EUR"), "ID_1", "ID_2");
     }
 
     @Test

@@ -33,7 +33,8 @@ public class BankApplication extends Application<BankConfiguration> {
         environment.jersey().register(new UnsupportedCurrencyExceptionMapper());
         environment.jersey().register(new InsufficientFundsExceptionMapper());
         environment.jersey().register(new TransferAccountNotFoundExceptionMapper());
-        environment.jersey().register(new SameTransferAccountException());
+        environment.jersey().register(new SameTransferAccountExceptionMapper());
+        environment.jersey().register(new IllegalAmountExceptionExceptionMapper());
         Map<String, MoneyTransfer> transferRepository = new LinkedHashMap<>();
         Map<String, Account> accountRepository = new LinkedHashMap<>();
         Account houseAccount = new Account();
@@ -99,6 +100,16 @@ public class BankApplication extends Application<BankConfiguration> {
             return Response.status(422).entity(
                     new ErrorResponse("ERR-004",
                             "Cannot use the same account as debit and credit account")).build();
+        }
+    }
+
+    public static class IllegalAmountExceptionExceptionMapper
+            implements ExceptionMapper<IllegalAmountException> {
+        @Override
+        public Response toResponse(IllegalAmountException e) {
+            return Response.status(422).entity(
+                    new ErrorResponse("ERR-005",
+                            "Illegal amount: " + e.amount)).build();
         }
     }
 
