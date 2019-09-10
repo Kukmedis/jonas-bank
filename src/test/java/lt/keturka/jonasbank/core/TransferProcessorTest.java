@@ -2,6 +2,7 @@ package lt.keturka.jonasbank.core;
 
 import lt.keturka.jonasbank.core.domain.Account;
 import lt.keturka.jonasbank.core.domain.MoneyTransfer;
+import lt.keturka.jonasbank.exceptions.SameTransferAccountException;
 import lt.keturka.jonasbank.exceptions.TransferAccountNotFoundException;
 import lt.keturka.jonasbank.exceptions.UnsupportedCurrencyException;
 import org.hamcrest.*;
@@ -84,7 +85,13 @@ public class TransferProcessorTest {
     public void shouldCreateATransferRecord() {
         String transferId = transferProcessor.transferMoney(Money.of(10.0, "EUR"), "ID_1", "ID_2");
         assertThat(transferRepository.get(transferId), equalTo(
-                new MoneyTransfer(transferId, "ID_1", "ID_2", Money.of(10.0, "EUR"), Instant.ofEpochSecond(1000))));
+                new MoneyTransfer(transferId, "ID_1", "ID_2",
+                        Money.of(10.0, "EUR"), Instant.ofEpochSecond(1000))));
+    }
+
+    @Test(expected = SameTransferAccountException.class)
+    public void shouldNotAllowTransferBetweenTheSameAccount() {
+        transferProcessor.transferMoney(Money.of(10.0, "EUR"), "ID_1", "ID_1");
     }
 
     @Test

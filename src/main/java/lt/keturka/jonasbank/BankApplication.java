@@ -9,10 +9,7 @@ import lt.keturka.jonasbank.api.ErrorResponse;
 import lt.keturka.jonasbank.core.TransferProcessor;
 import lt.keturka.jonasbank.core.domain.Account;
 import lt.keturka.jonasbank.core.domain.MoneyTransfer;
-import lt.keturka.jonasbank.exceptions.InsufficientFundsException;
-import lt.keturka.jonasbank.exceptions.NotFoundException;
-import lt.keturka.jonasbank.exceptions.TransferAccountNotFoundException;
-import lt.keturka.jonasbank.exceptions.UnsupportedCurrencyException;
+import lt.keturka.jonasbank.exceptions.*;
 import lt.keturka.jonasbank.healthchecks.BankHealthCheck;
 import lt.keturka.jonasbank.resources.AccountsResource;
 import lt.keturka.jonasbank.resources.TransfersResource;
@@ -36,6 +33,7 @@ public class BankApplication extends Application<BankConfiguration> {
         environment.jersey().register(new UnsupportedCurrencyExceptionMapper());
         environment.jersey().register(new InsufficientFundsExceptionMapper());
         environment.jersey().register(new TransferAccountNotFoundExceptionMapper());
+        environment.jersey().register(new SameTransferAccountException());
         Map<String, MoneyTransfer> transferRepository = new LinkedHashMap<>();
         Map<String, Account> accountRepository = new LinkedHashMap<>();
         Account houseAccount = new Account();
@@ -91,6 +89,16 @@ public class BankApplication extends Application<BankConfiguration> {
         public Response toResponse(TransferAccountNotFoundException e) {
             return Response.status(422).entity(
                     new ErrorResponse("ERR-003", "Cannot find account: " + e.accountId)).build();
+        }
+    }
+
+    public static class SameTransferAccountExceptionMapper
+            implements ExceptionMapper<SameTransferAccountException> {
+        @Override
+        public Response toResponse(SameTransferAccountException e) {
+            return Response.status(422).entity(
+                    new ErrorResponse("ERR-004",
+                            "Cannot use the same account as debit and credit account")).build();
         }
     }
 

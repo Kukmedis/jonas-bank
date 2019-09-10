@@ -2,6 +2,7 @@ package lt.keturka.jonasbank.core;
 
 import lt.keturka.jonasbank.core.domain.Account;
 import lt.keturka.jonasbank.core.domain.MoneyTransfer;
+import lt.keturka.jonasbank.exceptions.SameTransferAccountException;
 import lt.keturka.jonasbank.exceptions.TransferAccountNotFoundException;
 import lt.keturka.jonasbank.exceptions.InsufficientFundsException;
 import lt.keturka.jonasbank.exceptions.UnsupportedCurrencyException;
@@ -41,6 +42,9 @@ public class TransferProcessor {
     public synchronized String transferMoney(MonetaryAmount amount, String debitAccountId, String creditAccountId) {
         Account debitAccount = getCreditAccount(debitAccountId);
         Account creditAccount = getCreditAccount(creditAccountId);
+        if (debitAccountId.equals(creditAccountId)) {
+            throw new SameTransferAccountException();
+        }
         if (!"EUR".equals(amount.getCurrency().getCurrencyCode())) {
             throw new UnsupportedCurrencyException();
         }
