@@ -38,7 +38,7 @@ public class TransferProcessor {
         this.clock = clock;
     }
 
-    public String transferMoney(MonetaryAmount amount, String debitAccountId, String creditAccountId) {
+    public synchronized String transferMoney(MonetaryAmount amount, String debitAccountId, String creditAccountId) {
         Account debitAccount = getCreditAccount(debitAccountId);
         Account creditAccount = getCreditAccount(creditAccountId);
         if (!"EUR".equals(amount.getCurrency().getCurrencyCode())) {

@@ -15,6 +15,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.HashMap;
+import java.util.function.IntConsumer;
+import java.util.stream.IntStream;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -83,6 +85,14 @@ public class TransferProcessorTest {
         String transferId = transferProcessor.transferMoney(Money.of(10.0, "EUR"), "ID_1", "ID_2");
         assertThat(transferRepository.get(transferId), equalTo(
                 new MoneyTransfer(transferId, "ID_1", "ID_2", Money.of(10.0, "EUR"), Instant.ofEpochSecond(1000))));
+    }
+
+    @Test
+    public void shouldTransferConcurrently() {
+        IntStream.range(1, 61).parallel().forEach(value -> transferProcessor.transferMoney(
+                Money.of(1.0, "EUR"), "ID_1", "ID_2"));
+        assertThat(accountRepository.get("ID_1").getBalance(), equalTo(Money.of(40.0, "EUR")));
+        assertThat(accountRepository.get("ID_2").getBalance(), equalTo(Money.of(110.0, "EUR")));
     }
 
     private Account createAccount(double balance, String id) {
